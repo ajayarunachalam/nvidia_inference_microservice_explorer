@@ -1,3 +1,6 @@
+# NVIDIA NIM
+NVIDIA NIM (Inference Microservices) is a set of pre-built, optimized, containerized AI inference engines designed to accelerate the deployment of generative AI models. Part of the NVIDIA AI Enterprise suite, NIM enables developers to easily deploy models on any NVIDIA-accelerated infrastructure—from local workstations to cloud and data centers—using industry-standard APIs with high performance and security.
+
 # NVIDIA NIM Explorer
 
 A Gradio app for browsing, chatting with, and comparing NVIDIA NIM models via the `integrate.api.nvidia.com` endpoint.
