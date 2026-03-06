@@ -1,11 +1,7 @@
 """
-NIM Explorer — Gradio App
+NVIDIA INFERENCE MICROSERVICE Explorer — Gradio App
 =========================
 Browse, chat with, and compare NVIDIA NIM models via integrate.api.nvidia.com.
-
-Usage:
-    cd nim-explorer && python app.py
-    # Opens at http://localhost:7862
 """
 
 import json
@@ -16,9 +12,18 @@ import tempfile
 import threading
 import time
 import concurrent.futures
-
+import httpx
 import gradio as gr
 from openai import OpenAI
+from dotenv import load_dotenv
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.environ.get("openai_key", ""),
+    base_url="https://integrate.api.nvidia.com/v1",  
+    http_client=httpx.Client(verify=False)
+)
+
 
 # ---------------------------------------------------------------------------
 # NVIDIA green theme (reused from nim-clients/app.py)
@@ -157,8 +162,7 @@ def _get_client(api_key):
     key = api_key or os.environ.get("NVIDIA_API_KEY", "")
     if not key:
         raise gr.Error("No API key provided. Enter your key or set NVIDIA_API_KEY.")
-    return OpenAI(base_url=BASE_URL, api_key=key)
-
+    return OpenAI(base_url=BASE_URL, api_key=key, http_client=httpx.Client(verify=False))
 
 def _format_model_choices(model_ids, favourites=None, availability=None, max_label_len=55):
     """Return list of (label, value) tuples with provider badge, star, and availability."""
